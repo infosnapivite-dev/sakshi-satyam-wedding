@@ -19,7 +19,12 @@ function calculateTimeLeft() {
 
 export default function PageFive() {
   const containerRef = useRef(null);
-  const contentRef = useRef(null);
+  const inscriptionRef = useRef(null);
+  const daysRef = useRef(null);
+  const hoursRef = useRef(null);
+  const minutesRef = useRef(null);
+  const secondsRef = useRef(null);
+  const dividersRef = useRef([]);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
 
   // Live real-time countdown timer running continuously every second
@@ -31,25 +36,52 @@ export default function PageFive() {
     return () => clearInterval(timer);
   }, []);
 
-  // GSAP scroll entrance animation
+  // Smooth appearing animation staggered for each and every text element
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        contentRef.current,
-        { autoAlpha: 0, y: 18 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1.1,
-          ease: 'power2.out',
-          force3D: true,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse',
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      // 1. Inscription smoothly floats and fades in
+      tl.fromTo(
+        inscriptionRef.current,
+        { autoAlpha: 0, y: 22 },
+        { autoAlpha: 1, y: 0, duration: 1.05, ease: 'power2.out', force3D: true }
+      )
+        // 2. Countdown columns stagger into view
+        .fromTo(
+          [daysRef.current, hoursRef.current, minutesRef.current, secondsRef.current],
+          { autoAlpha: 0, y: 20, scale: 0.95 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.95,
+            stagger: 0.1,
+            ease: 'power2.out',
+            force3D: true,
           },
-        }
-      );
+          '-=0.55'
+        )
+        // 3. Vertical dividers expand vertically
+        .fromTo(
+          dividersRef.current,
+          { autoAlpha: 0, scaleY: 0 },
+          {
+            autoAlpha: 0.6,
+            scaleY: 1,
+            duration: 0.85,
+            stagger: 0.1,
+            ease: 'power2.out',
+            force3D: true,
+          },
+          '-=0.75'
+        );
     }, containerRef);
 
     return () => ctx.revert();
@@ -71,62 +103,83 @@ export default function PageFive() {
       />
 
       {/* Countdown Content Overlay (Centered in Upper Open Sky) */}
-      <div
-        ref={contentRef}
-        className="absolute inset-x-0 top-[23%] sm:top-[24%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-4"
-      >
-        {/* Poetic Inscription */}
-        <p className="font-playfair text-[#2c1a11] text-[18px] sm:text-[20px] md:text-[21px] tracking-wide mb-8 sm:mb-10 font-normal leading-tight">
+      <div className="absolute inset-x-0 top-[22%] sm:top-[23%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-4">
+        {/* Poetic Inscription - Scaled Up with Smooth Entrance */}
+        <p
+          ref={inscriptionRef}
+          className="font-playfair text-[#2c1a11] text-[19.5px] sm:text-[22px] md:text-[23.5px] tracking-wide mb-8 sm:mb-10 font-normal leading-tight gpu-layer"
+        >
           The wait for forever is almost over
         </p>
 
-        {/* 4-Unit Live Countdown Clock - Unified Font Style */}
-        <div className="flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5 w-full max-w-[340px]">
+        {/* 4-Unit Live Countdown Clock - Scaled Up with Unified Font Style */}
+        <div className="flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5 w-full max-w-[360px]">
           {/* DAYS */}
-          <div className="flex flex-col items-center min-w-[50px] sm:min-w-[58px]">
-            <span className="font-playfair text-[38px] sm:text-[44px] md:text-[48px] leading-none text-[#2c1a11] tabular-nums font-normal">
+          <div
+            ref={daysRef}
+            className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
+          >
+            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
               {timeLeft.days}
             </span>
-            <span className="font-playfair text-[10px] sm:text-[11px] md:text-[11.5px] uppercase tracking-[0.14em] text-[#2c1a11] mt-1.5 font-normal">
+            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
               DAYS
             </span>
           </div>
 
           {/* Vertical Divider */}
-          <div className="w-[1px] h-[36px] sm:h-[42px] bg-[#2c1a11]/60 self-center" />
+          <div
+            ref={(el) => (dividersRef.current[0] = el)}
+            className="countdown-divider w-[1px] h-[40px] sm:h-[46px] bg-[#2c1a11]/60 self-center gpu-layer origin-center"
+          />
 
           {/* HOURS */}
-          <div className="flex flex-col items-center min-w-[50px] sm:min-w-[58px]">
-            <span className="font-playfair text-[38px] sm:text-[44px] md:text-[48px] leading-none text-[#2c1a11] tabular-nums font-normal">
+          <div
+            ref={hoursRef}
+            className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
+          >
+            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
               {String(timeLeft.hours).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[10px] sm:text-[11px] md:text-[11.5px] uppercase tracking-[0.14em] text-[#2c1a11] mt-1.5 font-normal">
+            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
               HOURS
             </span>
           </div>
 
           {/* Vertical Divider */}
-          <div className="w-[1px] h-[36px] sm:h-[42px] bg-[#2c1a11]/60 self-center" />
+          <div
+            ref={(el) => (dividersRef.current[1] = el)}
+            className="countdown-divider w-[1px] h-[40px] sm:h-[46px] bg-[#2c1a11]/60 self-center gpu-layer origin-center"
+          />
 
           {/* MINUTES */}
-          <div className="flex flex-col items-center min-w-[50px] sm:min-w-[58px]">
-            <span className="font-playfair text-[38px] sm:text-[44px] md:text-[48px] leading-none text-[#2c1a11] tabular-nums font-normal">
+          <div
+            ref={minutesRef}
+            className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
+          >
+            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
               {String(timeLeft.minutes).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[10px] sm:text-[11px] md:text-[11.5px] uppercase tracking-[0.14em] text-[#2c1a11] mt-1.5 font-normal">
+            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
               MINUTES
             </span>
           </div>
 
           {/* Vertical Divider */}
-          <div className="w-[1px] h-[36px] sm:h-[42px] bg-[#2c1a11]/60 self-center" />
+          <div
+            ref={(el) => (dividersRef.current[2] = el)}
+            className="countdown-divider w-[1px] h-[40px] sm:h-[46px] bg-[#2c1a11]/60 self-center gpu-layer origin-center"
+          />
 
           {/* SECONDS */}
-          <div className="flex flex-col items-center min-w-[50px] sm:min-w-[58px]">
-            <span className="font-playfair text-[38px] sm:text-[44px] md:text-[48px] leading-none text-[#2c1a11] tabular-nums font-normal">
+          <div
+            ref={secondsRef}
+            className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
+          >
+            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
               {String(timeLeft.seconds).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[10px] sm:text-[11px] md:text-[11.5px] uppercase tracking-[0.14em] text-[#2c1a11] mt-1.5 font-normal">
+            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
               SECONDS
             </span>
           </div>

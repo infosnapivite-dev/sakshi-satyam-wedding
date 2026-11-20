@@ -5,26 +5,52 @@ import dividerImg from '../../assets/divider.webp';
 
 export default function PageSeven() {
   const containerRef = useRef(null);
-  const contentRef = useRef(null);
+  const line1Ref = useRef(null);
+  const line2Ref = useRef(null);
+  const dividerRef = useRef(null);
+  const namesRef = useRef(null);
+  const hashtagRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        contentRef.current,
-        { autoAlpha: 0, y: 16 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1.1,
-          ease: 'power2.out',
-          force3D: true,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+      // Smooth appearing animation staggered for each and every text element
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      tl.fromTo(
+        line1Ref.current,
+        { autoAlpha: 0, y: 18 },
+        { autoAlpha: 1, y: 0, duration: 1.05, ease: 'power2.out', force3D: true }
+      )
+        .fromTo(
+          line2Ref.current,
+          { autoAlpha: 0, y: 18 },
+          { autoAlpha: 1, y: 0, duration: 1.05, ease: 'power2.out', force3D: true },
+          '-=0.75'
+        )
+        .fromTo(
+          dividerRef.current,
+          { autoAlpha: 0, scaleX: 0.4 },
+          { autoAlpha: 0.95, scaleX: 1, duration: 0.95, ease: 'power2.out', force3D: true },
+          '-=0.65'
+        )
+        .fromTo(
+          namesRef.current,
+          { autoAlpha: 0, y: 20, scale: 0.96 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, ease: 'power2.out', force3D: true },
+          '-=0.65'
+        )
+        .fromTo(
+          hashtagRef.current,
+          { autoAlpha: 0, y: 14 },
+          { autoAlpha: 0.9, y: 0, duration: 0.95, ease: 'power2.out', force3D: true },
+          '-=0.55'
+        );
     }, containerRef);
 
     return () => ctx.revert();
@@ -46,35 +72,44 @@ export default function PageSeven() {
       />
 
       {/* Closing Message Overlay (Bottom Dark Area) */}
-      <div
-        ref={contentRef}
-        className="absolute inset-x-0 bottom-[8%] sm:bottom-[9%] md:bottom-[10%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-4"
-      >
-        {/* Poetic Invitation Sign-off */}
-        <p className="font-cormorant italic text-[#f5f0e6] text-[15px] sm:text-[16.5px] md:text-[17.5px] tracking-wide leading-relaxed font-normal">
+      <div className="absolute inset-x-0 bottom-[7.5%] sm:bottom-[8.5%] md:bottom-[9%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-4">
+        {/* Poetic Invitation Sign-off - Scaled Up with Staggered Entrance */}
+        <p
+          ref={line1Ref}
+          className="font-cormorant italic text-[#f5f0e6] text-[17px] sm:text-[18.5px] md:text-[20px] tracking-wide leading-relaxed font-normal gpu-layer"
+        >
           The lights are on. The celebrations await.
         </p>
-        <p className="font-cormorant italic text-[#f5f0e6] text-[15px] sm:text-[16.5px] md:text-[17.5px] tracking-wide leading-relaxed font-normal mb-2.5 sm:mb-3">
+        <p
+          ref={line2Ref}
+          className="font-cormorant italic text-[#f5f0e6] text-[17px] sm:text-[18.5px] md:text-[20px] tracking-wide leading-relaxed font-normal mb-3 sm:mb-3.5 gpu-layer"
+        >
           All that’s missing is you.
         </p>
 
-        {/* Ornamental Gold Divider */}
-        <div className="flex justify-center w-full my-1 sm:my-1.5 gpu-layer">
+        {/* Ornamental Gold Divider - Scaled Up */}
+        <div ref={dividerRef} className="flex justify-center w-full my-1 sm:my-1.5 gpu-layer">
           <img
             src={dividerImg}
             alt="Divider"
-            className="w-[84px] sm:w-[94px] md:w-[102px] h-auto object-contain pointer-events-none select-none opacity-90 brightness-110 gpu-layer"
+            className="w-[98px] sm:w-[110px] md:w-[120px] h-auto object-contain pointer-events-none select-none opacity-90 brightness-110 gpu-layer"
             draggable={false}
           />
         </div>
 
-        {/* Couple Names */}
-        <h2 className="font-wolmer text-[#f5eedc] text-[19px] sm:text-[21px] md:text-[23px] uppercase tracking-[0.16em] font-normal mt-2 sm:mt-2.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+        {/* Couple Names - Scaled Up with Wolmer Font */}
+        <h2
+          ref={namesRef}
+          className="font-wolmer text-[#f5eedc] text-[22px] sm:text-[25px] md:text-[27px] uppercase tracking-[0.18em] font-normal mt-2.5 sm:mt-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] gpu-layer"
+        >
           SAKSHI &amp; SATYAM
         </h2>
 
-        {/* Official Wedding Hashtag */}
-        <span className="font-cormorant text-[#c7bcab] text-[11px] sm:text-[12px] md:text-[12.5px] font-medium tracking-[0.16em] uppercase mt-2 opacity-85">
+        {/* Official Wedding Hashtag - Scaled Up */}
+        <span
+          ref={hashtagRef}
+          className="font-cormorant text-[#c7bcab] text-[12.5px] sm:text-[13.5px] md:text-[14.5px] font-medium tracking-[0.18em] uppercase mt-2.5 opacity-90 gpu-layer"
+        >
           #SakshiSeSatyamTak
         </span>
       </div>
