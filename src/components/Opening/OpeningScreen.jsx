@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
-import { Sparkles } from 'lucide-react';
 import img1 from '../../assets/img1.jpg';
 import img2 from '../../assets/img2.jpg';
 
@@ -18,7 +17,7 @@ export default function OpeningScreen({ onOpen }) {
 
     gsap.fromTo(
       promptRef.current,
-      { autoAlpha: 0, y: 16 },
+      { autoAlpha: 0, y: -14 },
       {
         autoAlpha: 1,
         y: 0,
@@ -28,7 +27,7 @@ export default function OpeningScreen({ onOpen }) {
         force3D: true,
         onComplete: () => {
           pulseTween.current = gsap.to(promptRef.current, {
-            y: -6,
+            y: 5,
             duration: 1.8,
             repeat: -1,
             yoyo: true,
@@ -55,8 +54,8 @@ export default function OpeningScreen({ onOpen }) {
     if (promptRef.current) {
       gsap.to(promptRef.current, {
         autoAlpha: 0,
-        y: -12,
-        scale: 0.95,
+        y: -14,
+        scale: 0.96,
         duration: 0.5,
         ease: 'power2.in',
         overwrite: true,
@@ -118,18 +117,15 @@ export default function OpeningScreen({ onOpen }) {
         </div>
       )}
 
-      {/* "Tap to Light Up the Palace" Prompt Overlay */}
+      {/* "Tap to Light Up the Palace" Prompt Overlay (Positioned at top, clean text layout) */}
       {showPrompt && (
         <div
           ref={promptRef}
-          className="absolute bottom-16 sm:bottom-20 inset-x-0 flex flex-col items-center justify-center pointer-events-none select-none z-20 px-6 text-center gpu-layer"
+          className="absolute top-14 sm:top-16 md:top-20 inset-x-0 flex flex-col items-center justify-center pointer-events-none select-none z-20 px-6 text-center gpu-layer"
         >
-          <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-black/45 backdrop-blur-md border border-white/20 shadow-[0_6px_28px_rgba(0,0,0,0.65),0_0_15px_rgba(245,210,160,0.18)]">
-            <Sparkles className="w-4 h-4 text-[#eec79a] animate-pulse flex-shrink-0" />
-            <span className="font-cormorant text-[17px] sm:text-[19px] md:text-[20px] font-medium tracking-[0.14em] text-[#faf6ee] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-              Tap to Light Up the Palace
-            </span>
-          </div>
+          <p className="font-cormorant text-[20px] sm:text-[23px] md:text-[25px] font-medium tracking-[0.1em] sm:tracking-[0.14em] text-[#faf6ee] drop-shadow-[0_2px_14px_rgba(0,0,0,0.92)]">
+            Tap to Light Up the Palace
+          </p>
         </div>
       )}
     </div>
