@@ -27,3 +27,12 @@ html, body {
   will-change: transform, opacity;
 }
 
+.countdown-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  -webkit-font-feature-settings: 'lnum' 1, 'tnum' 1;
+  -moz-font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
+
+

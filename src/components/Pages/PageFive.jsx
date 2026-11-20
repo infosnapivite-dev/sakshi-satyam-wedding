@@ -107,22 +107,22 @@ export default function PageFive() {
         {/* Poetic Inscription - Scaled Up with Smooth Entrance */}
         <p
           ref={inscriptionRef}
-          className="font-playfair text-[#2c1a11] text-[19.5px] sm:text-[22px] md:text-[23.5px] tracking-wide mb-8 sm:mb-10 font-normal leading-tight gpu-layer"
+          className="font-cormorant text-[#2c1a11] text-[20px] sm:text-[23px] md:text-[25px] tracking-wide mb-8 sm:mb-10 font-normal leading-tight gpu-layer"
         >
           The wait for forever is almost over
         </p>
 
-        {/* 4-Unit Live Countdown Clock - Scaled Up with Unified Font Style */}
-        <div className="flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5 w-full max-w-[360px]">
+        {/* 4-Unit Live Countdown Clock Matching Reference Image Typography */}
+        <div className="flex items-start justify-center gap-2.5 sm:gap-4 md:gap-5 w-full max-w-[360px]">
           {/* DAYS */}
           <div
             ref={daysRef}
             className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
           >
-            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
-              {timeLeft.days}
+            <span className="countdown-num font-cormorant font-medium text-[44px] sm:text-[50px] md:text-[56px] leading-none text-[#2c1a11]">
+              {String(timeLeft.days).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
+            <span className="font-cormorant font-medium text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-[#2c1a11] mt-2">
               DAYS
             </span>
           </div>
@@ -130,7 +130,7 @@ export default function PageFive() {
           {/* Vertical Divider */}
           <div
             ref={(el) => (dividersRef.current[0] = el)}
-            className="countdown-divider w-[1px] h-[40px] sm:h-[46px] bg-[#2c1a11]/60 self-center gpu-layer origin-center"
+            className="countdown-divider w-[1px] h-[36px] sm:h-[42px] md:h-[46px] bg-[#2c1a11]/60 mt-1 sm:mt-1.5 gpu-layer origin-center"
           />
 
           {/* HOURS */}
@@ -138,10 +138,10 @@ export default function PageFive() {
             ref={hoursRef}
             className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
           >
-            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
+            <span className="countdown-num font-cormorant font-medium text-[44px] sm:text-[50px] md:text-[56px] leading-none text-[#2c1a11]">
               {String(timeLeft.hours).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
+            <span className="font-cormorant font-medium text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-[#2c1a11] mt-2">
               HOURS
             </span>
           </div>
@@ -149,7 +149,7 @@ export default function PageFive() {
           {/* Vertical Divider */}
           <div
             ref={(el) => (dividersRef.current[1] = el)}
-            className="countdown-divider w-[1px] h-[40px] sm:h-[46px] bg-[#2c1a11]/60 self-center gpu-layer origin-center"
+            className="countdown-divider w-[1px] h-[36px] sm:h-[42px] md:h-[46px] bg-[#2c1a11]/60 mt-1 sm:mt-1.5 gpu-layer origin-center"
           />
 
           {/* MINUTES */}
@@ -157,10 +157,10 @@ export default function PageFive() {
             ref={minutesRef}
             className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
           >
-            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
+            <span className="countdown-num font-cormorant font-medium text-[44px] sm:text-[50px] md:text-[56px] leading-none text-[#2c1a11]">
               {String(timeLeft.minutes).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
+            <span className="font-cormorant font-medium text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-[#2c1a11] mt-2">
               MINUTES
             </span>
           </div>
@@ -168,7 +168,7 @@ export default function PageFive() {
           {/* Vertical Divider */}
           <div
             ref={(el) => (dividersRef.current[2] = el)}
-            className="countdown-divider w-[1px] h-[40px] sm:h-[46px] bg-[#2c1a11]/60 self-center gpu-layer origin-center"
+            className="countdown-divider w-[1px] h-[36px] sm:h-[42px] md:h-[46px] bg-[#2c1a11]/60 mt-1 sm:mt-1.5 gpu-layer origin-center"
           />
 
           {/* SECONDS */}
@@ -176,10 +176,10 @@ export default function PageFive() {
             ref={secondsRef}
             className="countdown-card flex flex-col items-center min-w-[54px] sm:min-w-[62px] gpu-layer"
           >
-            <span className="font-playfair text-[42px] sm:text-[48px] md:text-[54px] leading-none text-[#2c1a11] tabular-nums font-normal">
+            <span className="countdown-num font-cormorant font-medium text-[44px] sm:text-[50px] md:text-[56px] leading-none text-[#2c1a11]">
               {String(timeLeft.seconds).padStart(2, '0')}
             </span>
-            <span className="font-playfair text-[11px] sm:text-[12px] md:text-[12.5px] uppercase tracking-[0.16em] text-[#2c1a11] mt-2 font-normal">
+            <span className="font-cormorant font-medium text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-[#2c1a11] mt-2">
               SECONDS
             </span>
           </div>
