@@ -45,7 +45,7 @@ export default function OpeningScreen({ onOpen, onSecondImageVisible, onManualSc
 
   const handlePageClick = () => {
     if (isRemoved) {
-      // User tapped while second image is visible: scroll immediately
+      // User tapped while second image is visible: scroll to Page 3 immediately
       if (onManualScrollRequest) onManualScrollRequest();
       return;
     }
@@ -83,8 +83,9 @@ export default function OpeningScreen({ onOpen, onSecondImageVisible, onManualSc
       onComplete: () => {
         // Completely remove img1 from DOM after blend finishes
         setIsRemoved(true);
-        // Second image is now fully visible: trigger 3s auto-scroll to Page 3
-        if (onSecondImageVisible) onSecondImageVisible();
+        if (onSecondImageVisible) {
+          onSecondImageVisible();
+        }
       },
     });
   };
