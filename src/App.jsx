@@ -17,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   const scrollContainerRef = useRef(null);
   const lenisRef = useRef(null);
+  const autoScrollTimerRef = useRef(null);
   const [isOpened, setIsOpened] = useState(false);
 
   useEffect(() => {
@@ -76,8 +77,66 @@ export default function App() {
     }
   }, [isOpened]);
 
+  // Cancel pending auto-scroll if the user manually starts scrolling with wheel or touch
+  useEffect(() => {
+    const scrollerEl = scrollContainerRef.current;
+    if (!scrollerEl) return;
+
+    const cancelAutoScroll = () => {
+      if (autoScrollTimerRef.current) {
+        clearTimeout(autoScrollTimerRef.current);
+        autoScrollTimerRef.current = null;
+      }
+    };
+
+    scrollerEl.addEventListener('wheel', cancelAutoScroll, { passive: true });
+    scrollerEl.addEventListener('touchmove', cancelAutoScroll, { passive: true });
+
+    return () => {
+      scrollerEl.removeEventListener('wheel', cancelAutoScroll);
+      scrollerEl.removeEventListener('touchmove', cancelAutoScroll);
+      if (autoScrollTimerRef.current) {
+        clearTimeout(autoScrollTimerRef.current);
+      }
+    };
+  }, []);
+
   const handleOpenInvitation = () => {
     setIsOpened(true);
+  };
+
+  const scrollToPageThree = () => {
+    if (autoScrollTimerRef.current) {
+      clearTimeout(autoScrollTimerRef.current);
+      autoScrollTimerRef.current = null;
+    }
+
+    const page3El = document.getElementById('page-3');
+    const scrollerEl = scrollContainerRef.current;
+    if (!page3El) return;
+
+    if (lenisRef.current) {
+      lenisRef.current.resize();
+      lenisRef.current.scrollTo(page3El, {
+        duration: 2.0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    } else if (scrollerEl) {
+      scrollerEl.scrollTo({
+        top: page3El.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // Called when the second image is fully visible: waits 3 seconds then auto-scrolls to Page 3
+  const handleSecondImageVisible = () => {
+    if (autoScrollTimerRef.current) {
+      clearTimeout(autoScrollTimerRef.current);
+    }
+    autoScrollTimerRef.current = setTimeout(() => {
+      scrollToPageThree();
+    }, 3000);
   };
 
   return (
@@ -94,7 +153,11 @@ export default function App() {
               id="opening-page"
               className="relative w-full h-[100dvh] md:h-[852px] min-h-[100dvh] md:min-h-[852px] flex-shrink-0 gpu-layer overflow-hidden"
             >
-              <OpeningScreen onOpen={handleOpenInvitation} />
+              <OpeningScreen
+                onOpen={handleOpenInvitation}
+                onSecondImageVisible={handleSecondImageVisible}
+                onManualScrollRequest={scrollToPageThree}
+              />
             </section>
 
             {/* Subsequent Invitation Pages in single page scroll */}

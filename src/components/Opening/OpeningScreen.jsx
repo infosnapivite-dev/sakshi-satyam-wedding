@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import img1 from '../../assets/img1.jpg';
 import img2 from '../../assets/img2.jpg';
 
-export default function OpeningScreen({ onOpen }) {
+export default function OpeningScreen({ onOpen, onSecondImageVisible, onManualScrollRequest }) {
   const [isRemoved, setIsRemoved] = useState(false);
   const [isBlending, setIsBlending] = useState(false);
   const [showPrompt, setShowPrompt] = useState(true);
@@ -44,7 +44,12 @@ export default function OpeningScreen({ onOpen }) {
   }, []);
 
   const handlePageClick = () => {
-    if (isBlending || isRemoved) return;
+    if (isRemoved) {
+      // User tapped while second image is visible: scroll immediately
+      if (onManualScrollRequest) onManualScrollRequest();
+      return;
+    }
+    if (isBlending) return;
     setIsBlending(true);
     
     // Stop floating pulse animation
@@ -78,6 +83,8 @@ export default function OpeningScreen({ onOpen }) {
       onComplete: () => {
         // Completely remove img1 from DOM after blend finishes
         setIsRemoved(true);
+        // Second image is now fully visible: trigger 3s auto-scroll to Page 3
+        if (onSecondImageVisible) onSecondImageVisible();
       },
     });
   };
@@ -85,9 +92,7 @@ export default function OpeningScreen({ onOpen }) {
   return (
     <div
       onClick={handlePageClick}
-      className={`relative w-full h-full min-h-[100dvh] md:min-h-[852px] overflow-hidden select-none gpu-layer ${
-        !isRemoved ? 'cursor-pointer' : ''
-      }`}
+      className="relative w-full h-full min-h-[100dvh] md:min-h-[852px] overflow-hidden select-none gpu-layer cursor-pointer"
       aria-label="Opening Page"
     >
       {/* Underlying Image: img2 (Base Layer) */}
