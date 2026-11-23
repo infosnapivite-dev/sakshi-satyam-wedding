@@ -26,6 +26,7 @@ export default {
         script: ['"Alex Brush"', '"Great Vibes"', '"Cormorant Garamond"', 'cursive', 'serif'],
         wolmer: ['"Wolmer"', '"Cormorant Garamond"', 'serif'],
         cinzel: ['"Cinzel"', 'serif'],
+        hindi: ['"Rozha One"', '"Nirmala UI"', '"Mangal"', 'serif'],
         sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
       },
     },

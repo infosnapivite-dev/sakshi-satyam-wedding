@@ -51,7 +51,7 @@ export default function OpeningScreen({ onOpen, onSecondImageVisible, onManualSc
     }
     if (isBlending) return;
     setIsBlending(true);
-    
+
     // Stop floating pulse animation
     pulseTween.current?.kill();
 
@@ -130,7 +130,7 @@ export default function OpeningScreen({ onOpen, onSecondImageVisible, onManualSc
           className="absolute top-14 sm:top-16 md:top-20 inset-x-0 flex flex-col items-center justify-center pointer-events-none select-none z-20 px-6 text-center gpu-layer"
         >
           <p className="font-cormorant text-[20px] sm:text-[23px] md:text-[25px] font-medium tracking-[0.1em] sm:tracking-[0.14em] text-[#faf6ee] drop-shadow-[0_2px_14px_rgba(0,0,0,0.92)]">
-            Tap to Light Up the Palace
+            Tap to Light Up the Fort
           </p>
         </div>
       )}

@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import page6Bg from '../../assets/page6.jpg';
 import sakshiTitle from '../../assets/sakshi-title.png';
 import satyamTitle from '../../assets/satyam-title.png';
+import omLogo from '../../assets/om logo.png';
+import ganeshaLogo from '../../assets/ganesha logo.png';
 
 export default function PageSix() {
   const containerRef = useRef(null);
@@ -10,7 +12,7 @@ export default function PageSix() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Smooth cascade appearing animation for each and every text line
+      // Smooth cascade appearing animation for each and every element
       gsap.fromTo(
         textItemsRef.current,
         { autoAlpha: 0, y: 14 },
@@ -55,11 +57,39 @@ export default function PageSix() {
       />
 
       {/* Invitation Text Container (Positioned in Open Sky to the Right of the Pillar) */}
-      <div className="absolute top-[12%] sm:top-[13%] left-[17%] right-[2%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-2">
+      <div className="absolute top-[5%] sm:top-[5.5%] md:top-[6%] left-[17%] right-[2%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-2">
+        {/* Sacred Om Emblem */}
+        <div ref={addToRefs} className="flex justify-center w-full mb-1 sm:mb-1.5 gpu-layer">
+          <img
+            src={omLogo}
+            alt="Om Emblem"
+            className="w-[28px] sm:w-[32px] md:w-[36px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
+            draggable={false}
+          />
+        </div>
+
+        {/* Auspicious Lord Ganesha Emblem */}
+        <div ref={addToRefs} className="flex justify-center w-full mb-1 sm:mb-1.5 gpu-layer">
+          <img
+            src={ganeshaLogo}
+            alt="Lord Ganesha Emblem"
+            className="w-[36px] sm:w-[42px] md:w-[46px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
+            draggable={false}
+          />
+        </div>
+
+        {/* Divine Invocation in Hindi */}
+        <p
+          ref={addToRefs}
+          className="font-hindi text-[#3a2216] text-[13px] sm:text-[14px] md:text-[15px] tracking-wider mb-2.5 sm:mb-3 font-normal leading-tight gpu-layer"
+        >
+          ॥ श्री गणेशाय नमः ॥
+        </p>
+
         {/* Blessings Header */}
         <p
           ref={addToRefs}
-          className="font-cormorant italic text-[#5c4033] text-[14.5px] sm:text-[16px] md:text-[16.5px] leading-tight mb-1 gpu-layer"
+          className="font-cormorant italic text-[#5c4033] text-[14px] sm:text-[15px] md:text-[15.5px] leading-tight mb-1 gpu-layer"
         >
           With the blessings of
         </p>
@@ -67,54 +97,54 @@ export default function PageSix() {
         {/* Grandparents */}
         <h3
           ref={addToRefs}
-          className="font-cormorant font-normal text-[#2e1d15] text-[17px] sm:text-[18.5px] md:text-[19.5px] leading-snug gpu-layer"
+          className="font-cormorant font-normal text-[#2e1d15] text-[16.5px] sm:text-[17.5px] md:text-[18.5px] leading-snug gpu-layer"
         >
           Late Shri Satish Kr. Keshri
         </h3>
         <h3
           ref={addToRefs}
-          className="font-cormorant font-normal text-[#2e1d15] text-[17px] sm:text-[18.5px] md:text-[19.5px] leading-snug mb-3.5 sm:mb-4 gpu-layer"
+          className="font-cormorant font-normal text-[#2e1d15] text-[16.5px] sm:text-[17.5px] md:text-[18.5px] leading-snug mb-2.5 sm:mb-3 gpu-layer"
         >
           &amp; Smt. Rita Keshri
         </h3>
 
         {/* Formal Invitation Request */}
-        <div className="space-y-0.5 mb-2.5 sm:mb-3">
+        <div className="space-y-0.5 mb-2 sm:mb-2.5">
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#442f25] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed tracking-wide gpu-layer"
+            className="font-cormorant font-normal text-[#442f25] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed tracking-wide gpu-layer"
           >
             The Keshri family requests the honour of your presence
           </p>
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#442f25] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed tracking-wide gpu-layer"
+            className="font-cormorant font-normal text-[#442f25] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed tracking-wide gpu-layer"
           >
             at the wedding of their beloved granddaughter
           </p>
         </div>
 
         {/* Bride Name (Scaled Up) */}
-        <div ref={addToRefs} className="my-1 flex justify-center w-full gpu-layer">
+        <div ref={addToRefs} className="my-0.5 flex justify-center w-full gpu-layer">
           <img
             src={sakshiTitle}
             alt="Sakshi"
-            className="w-[118px] sm:w-[130px] md:w-[142px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
+            className="w-[115px] sm:w-[126px] md:w-[138px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
             draggable={false}
           />
         </div>
 
         {/* Bride Family Details */}
-        <div className="space-y-0.5 mb-2.5 sm:mb-3">
+        <div className="space-y-0.5 mb-2 sm:mb-2.5">
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#38251b] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed gpu-layer"
+            className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
             (D/o Mrs. Sangeeta &amp; Mr. Shekhar Keshri)
           </p>
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#38251b] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed gpu-layer"
+            className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
             (Sister of Shradha &amp; Shreshth Keshri)
           </p>
@@ -123,17 +153,17 @@ export default function PageSix() {
         {/* Connecting Word */}
         <p
           ref={addToRefs}
-          className="font-cormorant italic text-[#5c4033] text-[15px] sm:text-[16.5px] md:text-[17px] my-1 leading-none gpu-layer"
+          className="font-cormorant italic text-[#5c4033] text-[14.5px] sm:text-[15.5px] md:text-[16px] my-0.5 leading-none gpu-layer"
         >
           with
         </p>
 
         {/* Groom Name (Scaled Up) */}
-        <div ref={addToRefs} className="my-1 flex justify-center w-full gpu-layer">
+        <div ref={addToRefs} className="my-0.5 flex justify-center w-full gpu-layer">
           <img
             src={satyamTitle}
             alt="Satyam"
-            className="w-[128px] sm:w-[140px] md:w-[152px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
+            className="w-[125px] sm:w-[136px] md:w-[148px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
             draggable={false}
           />
         </div>
@@ -142,19 +172,19 @@ export default function PageSix() {
         <div className="space-y-0.5">
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#38251b] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed gpu-layer"
+            className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
             (Grand S/o Late Sunil Kumar Mehrotra
           </p>
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#38251b] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed gpu-layer"
+            className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
             &amp; Smt. Madhu Mehrotra)
           </p>
           <p
             ref={addToRefs}
-            className="font-cormorant font-normal text-[#38251b] text-[12.5px] sm:text-[13.5px] md:text-[14px] leading-relaxed gpu-layer"
+            className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
             (S/o Mr. Kishan Mehrotra &amp; Mrs. Roli Mehrotra)
           </p>
