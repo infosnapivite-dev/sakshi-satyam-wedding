@@ -73,7 +73,7 @@ export default function PageSix() {
           <img
             src={ganeshaLogo}
             alt="Lord Ganesha Emblem"
-            className="w-[36px] sm:w-[42px] md:w-[46px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
+            className="w-[48px] sm:w-[54px] md:w-[60px] h-auto object-contain pointer-events-none select-none drop-shadow-sm gpu-layer"
             draggable={false}
           />
         </div>
