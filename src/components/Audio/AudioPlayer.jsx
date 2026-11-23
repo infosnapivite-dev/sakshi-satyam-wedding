@@ -9,62 +9,78 @@ export default function AudioPlayer() {
   const wasPlayingBeforeHiddenRef = useRef(false);
 
   useEffect(() => {
-    // Initialize audio instance
-    const audio = new Audio(songSource);
-    audio.loop = true;
+    const audio = audioRef.current;
+    if (!audio) return;
+
     audio.volume = 0.65;
-    audioRef.current = audio;
 
     // Helper to attempt playing audio
     const attemptPlay = () => {
+      if (userMutedRef.current) return;
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
             setIsPlaying(true);
-            cleanupInteractionListeners();
+            removeInteractionListeners();
           })
           .catch(() => {
-            // Browser autoplay policy blocked; wait for first user gesture
+            // Autoplay policy prevented playback, keep listeners active for user gesture
             setIsPlaying(false);
           });
       }
     };
 
-    // User gesture listener to unlock audio if autoplay was blocked
-    const handleFirstUserGesture = () => {
+    // User gesture handler to unlock audio
+    const handleUserGesture = () => {
       if (!userMutedRef.current && audio.paused) {
+        // Unlock Web Audio API context for iOS/Safari
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            const ctx = new AudioContext();
+            if (ctx.state === 'suspended') ctx.resume();
+          }
+        } catch (_) {}
+
         attemptPlay();
       }
     };
 
-    const cleanupInteractionListeners = () => {
-      window.removeEventListener('click', handleFirstUserGesture);
-      window.removeEventListener('touchstart', handleFirstUserGesture);
-      window.removeEventListener('scroll', handleFirstUserGesture, true);
-      window.removeEventListener('keydown', handleFirstUserGesture);
+    // Listen on multiple user activation events
+    const events = ['click', 'pointerdown', 'touchstart', 'touchend', 'scroll', 'wheel', 'keydown'];
+    const addInteractionListeners = () => {
+      events.forEach((evt) => {
+        window.addEventListener(evt, handleUserGesture, { passive: true, capture: true });
+      });
     };
+
+    const removeInteractionListeners = () => {
+      events.forEach((evt) => {
+        window.removeEventListener(evt, handleUserGesture, { capture: true });
+      });
+    };
+
+    // Global custom event from OpeningScreen or App
+    const handleCustomPlay = () => {
+      handleUserGesture();
+    };
+    window.addEventListener('app:play-audio', handleCustomPlay);
 
     // 1. Try immediate autoplay on visit
     attemptPlay();
 
-    // 2. Also register first interaction listeners as fallback for strict browser autoplay policies
-    window.addEventListener('click', handleFirstUserGesture, { once: true, passive: true });
-    window.addEventListener('touchstart', handleFirstUserGesture, { once: true, passive: true });
-    window.addEventListener('scroll', handleFirstUserGesture, { once: true, passive: true, capture: true });
-    window.addEventListener('keydown', handleFirstUserGesture, { once: true, passive: true });
+    // 2. Add interaction listeners to play as soon as user touches/clicks anywhere
+    addInteractionListeners();
 
-    // 3. Handle when user turns off / minimizes / switches browser tab: turn off/pause song
+    // 3. Auto-pause when user turns off screen, minimizes, or switches tabs
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // Tab is hidden or minimized
-        if (audio && !audio.paused) {
-          audio.pause();
+        if (!audio.paused) {
           wasPlayingBeforeHiddenRef.current = true;
-          setIsPlaying(false);
+          audio.pause();
         }
       } else {
-        // Tab restored: resume only if it was playing before and user didn't explicitly mute
         if (wasPlayingBeforeHiddenRef.current && !userMutedRef.current) {
           audio.play().then(() => {
             setIsPlaying(true);
@@ -76,26 +92,21 @@ export default function AudioPlayer() {
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    // 4. Handle when user closes the window or navigates away
+    // 4. Handle when browser tab/window is closed or navigated away
     const handlePageHide = () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
+      audio.pause();
+      audio.currentTime = 0;
     };
 
     window.addEventListener('pagehide', handlePageHide);
     window.addEventListener('beforeunload', handlePageHide);
 
     return () => {
-      cleanupInteractionListeners();
+      removeInteractionListeners();
+      window.removeEventListener('app:play-audio', handleCustomPlay);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('pagehide', handlePageHide);
       window.removeEventListener('beforeunload', handlePageHide);
-      if (audio) {
-        audio.pause();
-        audio.src = '';
-      }
     };
   }, []);
 
@@ -119,26 +130,41 @@ export default function AudioPlayer() {
   };
 
   return (
-    <div className="absolute top-4 sm:top-5 left-4 sm:left-5 z-50 pointer-events-auto select-none">
-      <button
-        type="button"
-        onClick={handleToggleVolume}
-        aria-label={isPlaying ? 'Mute background song' : 'Play background song'}
-        title={isPlaying ? 'Mute Music' : 'Play Music'}
-        className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/65 backdrop-blur-md border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5),0_0_12px_rgba(230,195,140,0.2)] transition-all duration-300 active:scale-95 cursor-pointer"
-      >
-        {/* Subtle Ambient Pulse Ring when Playing */}
-        {isPlaying && (
-          <span className="absolute -inset-0.5 rounded-full border border-[#eec79a]/40 animate-ping opacity-60 pointer-events-none" />
-        )}
+    <>
+      {/* Real HTML5 Audio Element in DOM */}
+      <audio
+        ref={audioRef}
+        src={songSource}
+        autoPlay
+        loop
+        playsInline
+        preload="auto"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
 
-        {/* Audio Status Icon */}
-        {isPlaying ? (
-          <Volume2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#ecd2b2] drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-110" />
-        ) : (
-          <VolumeX className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#bfb5a7]/75 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-110" />
-        )}
-      </button>
-    </div>
+      {/* Floating Volume Toggle in Top-Left Corner */}
+      <div className="absolute top-4 sm:top-5 left-4 sm:left-5 z-50 pointer-events-auto select-none">
+        <button
+          type="button"
+          onClick={handleToggleVolume}
+          aria-label={isPlaying ? 'Mute background song' : 'Play background song'}
+          title={isPlaying ? 'Mute Music' : 'Play Music'}
+          className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/65 backdrop-blur-md border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5),0_0_12px_rgba(230,195,140,0.2)] transition-all duration-300 active:scale-95 cursor-pointer"
+        >
+          {/* Subtle Ambient Pulse Ring when Playing */}
+          {isPlaying && (
+            <span className="absolute -inset-0.5 rounded-full border border-[#eec79a]/40 animate-ping opacity-60 pointer-events-none" />
+          )}
+
+          {/* Audio Status Icon */}
+          {isPlaying ? (
+            <Volume2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#ecd2b2] drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-110" />
+          ) : (
+            <VolumeX className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#bfb5a7]/75 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-110" />
+          )}
+        </button>
+      </div>
+    </>
   );
 }

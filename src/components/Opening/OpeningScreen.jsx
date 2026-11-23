@@ -44,6 +44,9 @@ export default function OpeningScreen({ onOpen, onSecondImageVisible, onManualSc
   }, []);
 
   const handlePageClick = () => {
+    // Ensure background music starts playing immediately on user gesture
+    window.dispatchEvent(new CustomEvent('app:play-audio'));
+
     if (isRemoved) {
       // User tapped while second image is visible: scroll to Page 3 immediately
       if (onManualScrollRequest) onManualScrollRequest();
