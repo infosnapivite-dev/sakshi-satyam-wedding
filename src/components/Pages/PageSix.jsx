@@ -99,7 +99,7 @@ export default function PageSix() {
           ref={addToRefs}
           className="font-cormorant font-normal text-[#2e1d15] text-[16.5px] sm:text-[17.5px] md:text-[18.5px] leading-snug gpu-layer"
         >
-          Late Shri Satish Kr. Keshri
+          Late Satish Kr. Keshri
         </h3>
         <h3
           ref={addToRefs}
@@ -142,12 +142,7 @@ export default function PageSix() {
           >
             (D/o Mrs. Sangeeta &amp; Mr. Shekhar Keshri)
           </p>
-          <p
-            ref={addToRefs}
-            className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
-          >
-            (Sister of Shradha &amp; Shreshth Keshri)
-          </p>
+
         </div>
 
         {/* Connecting Word */}
@@ -174,7 +169,7 @@ export default function PageSix() {
             ref={addToRefs}
             className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
-            (Grand S/o Late Sunil Kumar Mehrotra
+            (Grand S/o Late Shri Sunil KR. Mehrotra
           </p>
           <p
             ref={addToRefs}
@@ -186,7 +181,7 @@ export default function PageSix() {
             ref={addToRefs}
             className="font-cormorant font-normal text-[#38251b] text-[12px] sm:text-[13px] md:text-[13.5px] leading-relaxed gpu-layer"
           >
-            (S/o Mr. Kishan Mehrotra &amp; Mrs. Roli Mehrotra)
+            (S/o Mrs. Roli Mehrotra &amp; Mr. Kishan Mehrotra)
           </p>
         </div>
       </div>

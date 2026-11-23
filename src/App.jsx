@@ -9,6 +9,7 @@ import PageFour from './components/Pages/PageFour';
 import PageFive from './components/Pages/PageFive';
 import PageSix from './components/Pages/PageSix';
 import PageSeven from './components/Pages/PageSeven';
+import AudioPlayer from './components/Audio/AudioPlayer';
 
 import './styles/iphone-mockup.css';
 
@@ -146,6 +147,9 @@ export default function App() {
   return (
     <div className="desktop-viewport-container">
       <IPhoneFrame>
+        {/* Floating Luxury Volume Toggle (Pinned in Top-Left Corner) */}
+        <AudioPlayer />
+
         <main
           id="mockup-scroll-container"
           ref={scrollContainerRef}
