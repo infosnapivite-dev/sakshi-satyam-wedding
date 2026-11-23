@@ -72,19 +72,19 @@ export default function PageSeven() {
       />
 
       {/* Closing Message Overlay (Bottom Dark Area) */}
-      <div className="absolute inset-x-0 bottom-[7.5%] sm:bottom-[8.5%] md:bottom-[9%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-4">
+      <div className="absolute inset-x-0 bottom-[4%] sm:bottom-[4.5%] md:bottom-[5%] flex flex-col items-center justify-center text-center pointer-events-none select-none gpu-layer z-20 px-4">
         {/* Poetic Invitation Sign-off - Scaled Up with Staggered Entrance */}
         <p
           ref={line1Ref}
           className="font-cormorant italic text-[#f5f0e6] text-[17px] sm:text-[18.5px] md:text-[20px] tracking-wide leading-relaxed font-normal gpu-layer"
         >
-          The lights are on. The celebrations await.
+          Together with love and excitement,
         </p>
         <p
           ref={line2Ref}
           className="font-cormorant italic text-[#f5f0e6] text-[17px] sm:text-[18.5px] md:text-[20px] tracking-wide leading-relaxed font-normal mb-3 sm:mb-3.5 gpu-layer"
         >
-          All that’s missing is you.
+          Sharad Chacha, Shradha and Shreshth  await the pleasure of your presence as Sakshi begins her forever with Satyam.
         </p>
 
         {/* Ornamental Gold Divider - Scaled Up */}
