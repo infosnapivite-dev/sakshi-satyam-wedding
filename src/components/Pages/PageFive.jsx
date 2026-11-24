@@ -2,8 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import page5Bg from '../../assets/page5.jpg';
 
-// Target wedding date: Feb 1, 2027 matching wedding suite
-const TARGET_WEDDING_DATE = new Date('2027-02-01T12:00:00').getTime();
+// Target wedding date: 22 Jan (handles live countdown dynamically)
+const TARGET_WEDDING_DATE = (() => {
+  const target2026 = new Date('2026-01-22T10:00:00').getTime();
+  const target2027 = new Date('2027-01-22T10:00:00').getTime();
+  const now = Date.now();
+  return now > target2026 ? target2027 : target2026;
+})();
 
 function calculateTimeLeft() {
   const now = new Date().getTime();
